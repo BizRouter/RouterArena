@@ -302,13 +302,20 @@ def run_test_func(completion, is_extracted, test_input, test_output):
         return True, result_output
 
 
+# `if __name__ == "__main__":` and `if __name__ == '__main__':` are the same
+# guard; either quote style (and either operand order) must run the program.
+MAIN_GUARD = re.compile(
+    r"""__name__\s*==\s*(['"])__main__\1|(['"])__main__\2\s*==\s*__name__"""
+)
+
+
 def run_test_std(completion, test_input, test_output):
     sys.stdin = StringIO(test_input)
 
     output = StringIO()
     sys.stdout = output
 
-    if '__name__ == "__main__"' in completion:
+    if MAIN_GUARD.search(completion):
         # Simulate that the code is being run as the main script
         completion = '__name__ = "__main__"\n' + completion
 
