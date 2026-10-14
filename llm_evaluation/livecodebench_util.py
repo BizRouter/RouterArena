@@ -303,7 +303,10 @@ def run_test_func(completion, is_extracted, test_input, test_output):
 
 
 def run_test_std(completion, test_input, test_output):
-    sys.stdin = StringIO(test_input)
+    # A StringIO has no .buffer, so solutions reading sys.stdin.buffer would fail.
+    sys.stdin = io.TextIOWrapper(
+        io.BytesIO(test_input.encode("utf-8")), encoding="utf-8", newline="\n"
+    )
 
     output = StringIO()
     sys.stdout = output
