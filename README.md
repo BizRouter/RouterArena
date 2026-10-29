@@ -29,7 +29,10 @@ RouterArena bridges this gap by providing an open evaluation platform and benchm
 *We aim for RouterArena to serve as a foundation for the community to evaluate, understand, and advance LLM routing systems.*
 
 > [!IMPORTANT]
-> **RouterArena is an evaluation-only dataset.** Submissions that train, fit, or tune any router component on RouterArena data (including the label files) will be rejected, and any accepted submission found in violation will be withdrawn.
+> **RouterArena is an evaluation-only dataset.** Submissions that train, fit, or tune any router component on RouterArena data (including the label files) will be rejected, and any accepted submission found in violation will be withdrawn. This includes:
+> - **Routing by dataset or template.** Routing must depend on the query's own content, not on which RouterArena dataset it comes from: for example, not by matching the instruction text the evaluation harness adds to each dataset, and not by reading `config/eval_config/`.
+> - **Building router data from RouterArena's templates or configs.** Calibration or training prompts must not be rendered with RouterArena's prompt templates or config files.
+> - **Reusing other submissions' answers.** Every row must come from the router's own model calls. Answers copied from other submissions' prediction files are not accepted.
 
 # Current Leaderboard
 
